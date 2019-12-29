@@ -6,6 +6,8 @@ let door, roy;
 let doorMixer, royMixer;
 let model;
 let pm;
+let sound;
+
 const clock = new THREE.Clock();
 
 function isMobile() {
@@ -90,7 +92,9 @@ export default function StartNFT (
 	// controls.target.set(0, 0, - 0.2);
 	// controls.update();
 
-	console.log(camera);
+	const audioListener = new THREE.AudioListener();
+	camera.add(audioListener);
+
 	scene.add(camera);
 
 	const light1 = new THREE.AmbientLight(0xffffff);
@@ -124,12 +128,21 @@ export default function StartNFT (
 				action.clampWhenFinished = true;
 				action.play();
 			}
+			sound.play();
 		}, 5000);
 
 		root.matrixAutoUpdate = false;
 		root.add(door);
 		root.add(roy);
 	};
+
+	sound = new THREE.Audio(audioListener);
+	scene.add(sound);
+
+	const audioLoader = new THREE.AudioLoader(loadingManager);
+	audioLoader.load('Data/hny2020.mp3', (audioBuffer) => {
+		sound.setBuffer(audioBuffer);
+	});
 
 	const loader = new FBXLoader(loadingManager);
 	loader.load('models/hny2020fbx/Greeting_OnlyDoor.fbx', (object) => {
