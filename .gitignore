@@ -1,0 +1,6 @@
+.DS_Store
+_DS_Store
+node_modules
+bundle.js
+__*
+*.blend1
