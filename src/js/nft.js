@@ -58,7 +58,7 @@ export default function StartNFT (
 	let pw, ph;
 	let ox, oy;
 	let worker;
-	let camera_para = "/Data/camera_para-iPhone 5 rear 640x480 1.0m.dat";
+	let camera_para = "../../../Data/camera_para-iPhone 5 rear 640x480 1.0m.dat";
 
 	let canvas_process = document.createElement("canvas");
 	let context_process = canvas_process.getContext("2d");
@@ -176,7 +176,7 @@ export default function StartNFT (
 
 		renderer.setSize(sw, sh);
 
-		worker = new Worker("../vendor/jsartoolkit5/js/artoolkit.worker.js");
+		worker = new Worker("./vendor/jsartoolkit5/js/artoolkit.worker.js");
 
 		worker.postMessage({
 			type: "load",
