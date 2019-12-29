@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 let door, roy;
 let doorMixer, royMixer;
 let model;
+let pm;
 const clock = new THREE.Clock();
 
 function isMobile() {
@@ -59,6 +61,7 @@ export default function StartNFT (
 	let ox, oy;
 	let worker;
 	let camera_para = "../../../Data/camera_para-iPhone 5 rear 640x480 1.0m.dat";
+	// let camera_para = "../../../Data/camera_para.dat";
 
 	let canvas_process = document.createElement("canvas");
 	let context_process = canvas_process.getContext("2d");
@@ -77,10 +80,17 @@ export default function StartNFT (
 
 	const camera = new THREE.Camera();
 	camera.matrixAutoUpdate = false;
-	// let camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
-	// camera.position.z = 400;
+	
+	const dummyCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 3000);
+	camera.projectionMatrix = dummyCamera.projectionMatrix;
+	// camera.position.set(-1.8, 0.6, 2.7);
 	// camera.matrixAutoUpdate = false;
 
+	// const controls = new OrbitControls(camera, renderer.domElement);
+	// controls.target.set(0, 0, - 0.2);
+	// controls.update();
+
+	console.log(camera);
 	scene.add(camera);
 
 	const light1 = new THREE.AmbientLight(0xffffff);
@@ -124,9 +134,9 @@ export default function StartNFT (
 	const loader = new FBXLoader(loadingManager);
 	loader.load('models/hny2020fbx/Greeting_OnlyDoor.fbx', (object) => {
 		console.log('door loaded', object.scale, object.position);
-		object.scale.x = 100;
-		object.scale.y = 100;
-		object.scale.z = 100;
+		object.scale.x = 200;
+		object.scale.y = 200;
+		object.scale.z = 200;
 		object.rotateX(90 * Math.PI / 180);
 		object.position.x = 70.0;
 		object.position.y = 90.0;
@@ -135,14 +145,21 @@ export default function StartNFT (
 	});
 	loader.load('models/hny2020fbx/Greeting280_OnlyRoy.fbx', (object) => {
 		console.log('roy loaded', object.scale, object.position);
-		console.log(object.children);
-		object.scale.x = 0.1;
-		object.scale.y = 0.1;
-		object.scale.z = 0.1;
+		// console.log(object.children);
+		for (let child of object.children) {
+			// console.log(child.name, child.type);
+			if (child.type == 'SkinnedMesh') {
+				console.log(child.material);
+			}
+		}
+		object.scale.x = 0.2;
+		object.scale.y = 0.2;
+		object.scale.z = 0.2;
 		object.rotateX(90 * Math.PI / 180);
 		object.position.x = 70.0;
 		object.position.y = 90.0;
 		object.position.z = 0;
+		console.log('a');
 		roy = object;
 	});
 
@@ -190,18 +207,19 @@ export default function StartNFT (
 			let msg = ev.data;
 			switch (msg.type) {
 				case "loaded": {
-					let proj = JSON.parse(msg.proj);
-					let ratioW = pw / w;
-					let ratioH = ph / h;
-					proj[0] *= ratioW;
-					proj[4] *= ratioW;
-					proj[8] *= ratioW;
-					proj[12] *= ratioW;
-					proj[1] *= ratioH;
-					proj[5] *= ratioH;
-					proj[9] *= ratioH;
-					proj[13] *= ratioH;
-					setMatrix(camera.projectionMatrix, proj);
+					// ARKitで用意されたカメラパラメータを使うと3Dモデルのメッシュ表示が崩れるので使わない
+					// let proj = JSON.parse(msg.proj);
+					// let ratioW = pw / w;
+					// let ratioH = ph / h;
+					// proj[0] *= ratioW;
+					// proj[4] *= ratioW;
+					// proj[8] *= ratioW;
+					// proj[12] *= ratioW;
+					// proj[1] *= ratioH;
+					// proj[5] *= ratioH;
+					// proj[9] *= ratioH;
+					// proj[13] *= ratioH;
+					// setMatrix(camera.projectionMatrix, proj);
 					break;
 				}
 				case "endLoading": {
@@ -276,7 +294,12 @@ export default function StartNFT (
 	}
 	let tick = () => {
 		draw();
-		requestAnimationFrame(tick);
+		// renderer.render(scene, camera);
+
+		// requestAnimationFrame(tick);
+		setTimeout(function() {
+        	requestAnimationFrame(tick);
+    	}, 1000 / 30);
 		const delta = clock.getDelta();
 		if (doorMixer) {
 			doorMixer.update(delta);

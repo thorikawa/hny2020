@@ -1,5 +1,6 @@
 //importScripts('../../vendor/jsartoolkit5/build/artoolkit.min.js');
 importScripts('../build/artoolkit.min.js');
+// importScripts('../build/artoolkit.debug.js');
 self.onmessage = function(e) {
     var msg = e.data;
     switch (msg.type) {

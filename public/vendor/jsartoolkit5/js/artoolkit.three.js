@@ -104,7 +104,7 @@
 			// add the camera and the video plane to the scene.
 			var videoCamera = new THREE.OrthographicCamera(-1, 1, -1, 1, -1, 1);
 			var videoScene = new THREE.Scene();
-			videoScene.add(plane);
+			// videoScene.add(plane);
 			videoScene.add(videoCamera);
 
 			if (this.orientation === 'portrait') {
