@@ -44,7 +44,8 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 			audio: false,
 			video: {
 				facingMode: "environment",
-				width: { min: width, max: width }
+				width: { min: width, max: width },
+				aspectRatio: window.innerWidth / window.innerHeight
 			}
 		};
 		console.log(hint);

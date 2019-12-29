@@ -177,6 +177,7 @@ export default function StartNFT (
 	});
 
 	let load = () => {
+		console.log('input', input_width, input_height);
 		vw = input_width;
 		vh = input_height;
 
