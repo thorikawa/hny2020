@@ -307,12 +307,7 @@ export default function StartNFT (
 	}
 	let tick = () => {
 		draw();
-		// renderer.render(scene, camera);
-
-		// requestAnimationFrame(tick);
-		setTimeout(function() {
-        	requestAnimationFrame(tick);
-    	}, 1000 / 30);
+		requestAnimationFrame(tick);
 		const delta = clock.getDelta();
 		if (doorMixer) {
 			doorMixer.update(delta);
