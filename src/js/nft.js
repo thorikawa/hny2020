@@ -158,13 +158,13 @@ export default function StartNFT (
 	});
 	loader.load('models/hny2020fbx/Greeting280_OnlyRoy.fbx', (object) => {
 		console.log('roy loaded', object.scale, object.position);
-		// console.log(object.children);
-		for (let child of object.children) {
-			// console.log(child.name, child.type);
-			if (child.type == 'SkinnedMesh') {
-				console.log(child.material);
+		console.log(object.children);
+		object.traverse((child) => {
+			if (child.material && child.material.name === 'mahojin') {
+				console.log(child.name, child.material);
+				child.material.transparent = true;
 			}
-		}
+		});
 		object.scale.x = 0.2;
 		object.scale.y = 0.2;
 		object.scale.z = 0.2;
@@ -172,7 +172,6 @@ export default function StartNFT (
 		object.position.x = 70.0;
 		object.position.y = 90.0;
 		object.position.z = 0;
-		console.log('a');
 		roy = object;
 	});
 
