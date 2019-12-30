@@ -43,7 +43,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 			audio: false,
 			video: {
 				facingMode: "environment",
-				width: { max: width },
+				width: 640,
 				aspectRatio: window.innerWidth / window.innerHeight
 			}
 		};
