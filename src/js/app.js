@@ -18,12 +18,12 @@ let marker = {
 /**
 * STATS
 */
-let statsMain = new Stats();
-statsMain.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.getElementById("stats1").appendChild(statsMain.dom);
-let statsWorker = new Stats();
-statsWorker.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.getElementById("stats2").appendChild(statsWorker.dom);
+// let statsMain = new Stats();
+// statsMain.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.getElementById("stats1").appendChild(statsMain.dom);
+// let statsWorker = new Stats();
+// statsWorker.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.getElementById("stats2").appendChild(statsWorker.dom);
 /**
 * APP / ELEMENTS
 */
@@ -43,7 +43,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 			audio: false,
 			video: {
 				facingMode: "environment",
-				width: 640,
+				width: 320,
 				aspectRatio: window.innerWidth / window.innerHeight
 			}
 		};
@@ -63,10 +63,10 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 				video.videoHeight,
 				canvas,
 				function() {
-					statsMain.update();
+					// statsMain.update();
 				},
 				function() {
-					statsWorker.update();
+					// statsWorker.update();
 				},
 				null
 			);

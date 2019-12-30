@@ -178,7 +178,7 @@ export default function StartNFT (
 		vw = input_width;
 		vh = input_height;
 
-		pscale = 640 / Math.max(vw, (vh / 3) * 4);
+		pscale = 320 / Math.max(vw, (vh / 3) * 4);
 		sscale = isMobile() ? window.outerWidth / input_width : 1;
 
 		sw = vw * sscale;
