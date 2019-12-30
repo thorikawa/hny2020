@@ -346,8 +346,7 @@ export default function StartNFT (
 		context_process.fillRect(0, 0, pw, ph);
 		context_process.drawImage(video, 0, 0, vw, vh, ox, oy, w, h);
 
-		// let imageData = context_process.getImageData(0, 0, pw, ph);
-		let imageData = context_process.getImageData(ox, oy, w, h);
+		let imageData = context_process.getImageData(0, 0, pw, ph);
 		worker.postMessage({ type: "process", imagedata: imageData }, [
 			imageData.data.buffer
 		]);
