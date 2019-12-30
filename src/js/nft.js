@@ -5,6 +5,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 let door, roy;
 let doorMixer, royMixer;
 let sound;
+let modelLoaded = false;
+let animationStarted = false;
+let animations = [];
 
 const clock = new THREE.Clock();
 
@@ -109,26 +112,28 @@ export default function StartNFT (
 	const loadingManager = new THREE.LoadingManager();
 	loadingManager.onLoad = () => {
 		console.log( 'Loading complete!');
+		modelLoaded = true;
 		doorMixer = new THREE.AnimationMixer(door);
 		royMixer = new THREE.AnimationMixer(roy);
 		// const animations = gltf.animations;
-		setTimeout(() => {
-			for (let anim of door.animations) {
-				console.log(`add dooranim:${anim.name}`);
-				const action = doorMixer.clipAction(anim) ;
-				action.setLoop(THREE.LoopOnce); 
-				action.clampWhenFinished = true;
-				action.play();
-			}
-			for (let anim of roy.animations) {
-				console.log(`add royanim:${anim.name}`);
-				const action = royMixer.clipAction(anim) ;
-				action.setLoop(THREE.LoopOnce); 
-				action.clampWhenFinished = true;
-				action.play();
-			}
-			sound.play();
-		}, 5000);
+		for (let anim of door.animations) {
+			console.log(`add dooranim:${anim.name}`);
+			const action = doorMixer.clipAction(anim) ;
+			action.setLoop(THREE.LoopOnce); 
+			action.clampWhenFinished = true;
+			action.play();
+			action.paused = true;
+			animations.push(action);
+		}
+		for (let anim of roy.animations) {
+			console.log(`add royanim:${anim.name}`);
+			const action = royMixer.clipAction(anim) ;
+			action.setLoop(THREE.LoopOnce); 
+			action.clampWhenFinished = true;
+			action.play();
+			action.paused = true;
+			animations.push(action);
+		}
 
 		root.matrixAutoUpdate = false;
 		root.add(door);
@@ -305,6 +310,17 @@ export default function StartNFT (
 
 			// set matrix of 'root' by detected 'world' matrix
 			setMatrix(root.matrix, trackedMatrix.interpolated);
+
+			if (modelLoaded && !animationStarted) {
+				animationStarted = true;
+				setTimeout(() => {
+					for (let anim of animations) {
+						anim.paused = false;
+					}
+					sound.play();
+				}, 2000);
+			}
+
 		}
 		renderer.render(scene, camera);
 	};
