@@ -216,10 +216,8 @@ export default function StartNFT (
 		h = vh * pscale;
 
 		// pw,ph: マーカー検出に使う映像サイズ
-		// pw = Math.max(w, (h / 3) * 4); // 横幅か、高さの4/3倍どちらか大きい方
-		// ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
-		pw = w;
-		ph = h;
+		pw = Math.max(w, (h / 3) * 4); // 横幅か、高さの4/3倍どちらか大きい方
+		ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
 		ox = (pw - w) / 2;
 		oy = (ph - h) / 2;
 
@@ -348,7 +346,8 @@ export default function StartNFT (
 		context_process.fillRect(0, 0, pw, ph);
 		context_process.drawImage(video, 0, 0, vw, vh, ox, oy, w, h);
 
-		let imageData = context_process.getImageData(0, 0, pw, ph);
+		// let imageData = context_process.getImageData(0, 0, pw, ph);
+		let imageData = context_process.getImageData(ox, oy, w, h);
 		worker.postMessage({ type: "process", imagedata: imageData }, [
 			imageData.data.buffer
 		]);
