@@ -1,0 +1,29 @@
+<html>
+<head>
+	<script>
+let hint = {
+	audio: false,
+	video: {
+		facingMode: "environment",
+		// width: 1659,
+		// height: 480,
+		// aspectRatio: window.innerWidth / window.innerHeight
+		// aspectRatio: window.outerWidth / window.outerHeight
+		aspectRatio: window.innerHeight / window.innerWidth
+	}
+};
+console.log(window.innerWidth / window.innerHeight, window.innerWidth, window.innerHeight);
+console.log(window.outerWidth / window.outerHeight, window.outerWidth, window.outerHeight);
+navigator.mediaDevices.getUserMedia(hint).then(function(stream) {
+	var ar = stream.getVideoTracks()[0].getSettings().aspectRatio;
+	var w = stream.getVideoTracks()[0].getSettings().width;
+	var h = stream.getVideoTracks()[0].getSettings().height;
+	console.log(w/h, w, h);
+});
+
+	</script>
+</head>
+<body>
+	test
+</body>
+</html>

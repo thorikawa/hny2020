@@ -6,6 +6,7 @@ let door, roy;
 let doorMixer, royMixer;
 let sound;
 let modelLoaded = false;
+let workerLoaded = false;
 let animationStarted = false;
 let animations = [];
 
@@ -138,6 +139,12 @@ export default function StartNFT (
 		root.matrixAutoUpdate = false;
 		root.add(door);
 		root.add(roy);
+
+		if (workerLoaded) {
+			// removing loader page if present
+			document.body.classList.remove("loading");
+			document.getElementById("loading").remove();
+		}
 	};
 
 	sound = new THREE.Audio(audioListener);
@@ -211,6 +218,9 @@ export default function StartNFT (
 		ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
 		ox = (pw - w) / 2;
 		oy = (ph - h) / 2;
+
+		console.log(`pw=${pw} ph=${ph} ox=${ox} oy=${oy} sw=${sw} sh=${sh} w=${w} h=${h} vw=${vw} vh=${vh}`);
+
 		canvas_process.style.clientWidth = pw + "px";
 		canvas_process.style.clientHeight = ph + "px";
 		canvas_process.width = pw;
@@ -255,10 +265,14 @@ export default function StartNFT (
 					break;
 				}
 				case "endLoading": {
-					if (msg.end == true)
-						// removing loader page if present
-						document.body.classList.remove("loading");
-					document.getElementById("loading").remove();
+					if (msg.end == true) {
+						workerLoaded = true;
+						if (modelLoaded) {
+							// removing loader page if present
+							document.body.classList.remove("loading");
+							document.getElementById("loading").remove();
+						}
+					}
 					break;
 				}
 				case "found": {
