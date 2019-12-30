@@ -83,7 +83,7 @@ export default function StartNFT (
 	const camera = new THREE.Camera();
 	camera.matrixAutoUpdate = false;
 	
-	const dummyCamera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 3000);
+	const dummyCamera = new THREE.PerspectiveCamera(70, input_width / input_height, 0.1, 3000);
 	camera.projectionMatrix = dummyCamera.projectionMatrix;
 	// camera.position.set(-1.8, 0.6, 2.7);
 	// camera.matrixAutoUpdate = false;
