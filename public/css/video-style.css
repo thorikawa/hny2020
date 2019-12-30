@@ -154,6 +154,7 @@ body.loading>* {
   position: absolute;
   top: 10px;
   width: 100%;
+  font-size: small;
   -webkit-text-stroke-width: 1px;
   color: #eee;
   -webkit-text-stroke-color: #111;
