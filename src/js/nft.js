@@ -100,11 +100,11 @@ export default function StartNFT (
 
 	scene.add(camera);
 
-	const light1 = new THREE.AmbientLight(0xffffff);
+	const light1 = new THREE.AmbientLight(0xffffff, 1);
 	scene.add(light1);
 
-	const light2 = new THREE.DirectionalLight(0xFFFFFF, 1);
-	scene.add(light2);
+	// const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.3);
+	// scene.add(light2);
 
 	const root = new THREE.Object3D();
 	scene.add(root);
