@@ -97,6 +97,7 @@ export default function StartNFT (
 
 	const audioListener = new THREE.AudioListener();
 	camera.add(audioListener);
+	console.log(audioListener);
 
 	scene.add(camera);
 
@@ -149,6 +150,7 @@ export default function StartNFT (
 
 	sound = new THREE.Audio(audioListener);
 	scene.add(sound);
+	console.log(sound);
 
 	const audioLoader = new THREE.AudioLoader(loadingManager);
 	audioLoader.load('Data/hny2020.mp3', (audioBuffer) => {
