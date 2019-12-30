@@ -4,8 +4,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 let door, roy;
 let doorMixer, royMixer;
-let model;
-let pm;
 let sound;
 
 const clock = new THREE.Clock();
