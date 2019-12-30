@@ -145,6 +145,7 @@ export default function StartNFT (
 			// removing loader page if present
 			document.body.classList.remove("loading");
 			document.getElementById("loading").remove();
+			document.getElementById("warning").style.display = 'flex';
 		}
 	};
 
@@ -273,6 +274,7 @@ export default function StartNFT (
 							// removing loader page if present
 							document.body.classList.remove("loading");
 							document.getElementById("loading").remove();
+							document.getElementById("warning").style.display = 'flex';
 						}
 					}
 					break;
@@ -326,6 +328,8 @@ export default function StartNFT (
 
 			// set matrix of 'root' by detected 'world' matrix
 			setMatrix(root.matrix, trackedMatrix.interpolated);
+
+			document.getElementById("warning").style.display = 'none';
 
 			if (modelLoaded && !animationStarted) {
 				animationStarted = true;
