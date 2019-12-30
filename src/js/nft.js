@@ -214,8 +214,10 @@ export default function StartNFT (
 		h = vh * pscale;
 
 		// pw,ph: マーカー検出に使う映像サイズ
-		pw = Math.max(w, (h / 3) * 4); // 横幅か、高さの4/3倍どちらか大きい方
-		ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
+		// pw = Math.max(w, (h / 3) * 4); // 横幅か、高さの4/3倍どちらか大きい方
+		// ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
+		pw = w;
+		ph = h;
 		ox = (pw - w) / 2;
 		oy = (ph - h) / 2;
 
