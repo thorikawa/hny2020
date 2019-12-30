@@ -37,7 +37,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 	};
 	// if (window.innerWidth < 800) {
 		console.log(window.innerWidth, window.innerHeight);
-		let width = window.innerWidth / 2;
+		let width = window.innerWidth;
 		let aspectRatio = window.innerWidth / window.innerHeight;
 		hint = {
 			audio: false,
