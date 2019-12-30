@@ -12,7 +12,7 @@ function isMobile() {
 	return /Android|mobile|iPad|iPhone/i.test(navigator.userAgent);
 }
 
-const interpolationFactor = 5;
+const interpolationFactor = 1;
 
 let trackedMatrix = {
 	// for interpolation
@@ -81,8 +81,9 @@ export default function StartNFT (
 	const camera = new THREE.Camera();
 	camera.matrixAutoUpdate = false;
 	
-	const dummyCamera = new THREE.PerspectiveCamera(70, input_width / input_height, 0.1, 3000);
-	camera.projectionMatrix = dummyCamera.projectionMatrix;
+	const dummyCamera = new THREE.PerspectiveCamera(45, input_width / input_height, 0.1, 3000);
+	// camera.projectionMatrix = dummyCamera.projectionMatrix;
+	// console.log(dummyCamera.projectionMatrix);
 	// camera.position.set(-1.8, 0.6, 2.7);
 	// camera.matrixAutoUpdate = false;
 
@@ -178,9 +179,12 @@ export default function StartNFT (
 		vw = input_width;
 		vh = input_height;
 
-		pscale = 320 / Math.max(vw, (vh / 3) * 4);
+		// pscale: 横幅か、高さの4/3倍どちらか大きい方を320サイズにするときの比率
+		pscale = 640 / Math.max(vw, (vh / 3) * 4);
+
 		sscale = isMobile() ? window.outerWidth / input_width : 1;
 
+		// sw,sh: ビデオをアスペクト比を保ち横幅いっぱいまで拡張したときのサイズ
 		sw = vw * sscale;
 		sh = vh * sscale;
 		video.style.width = sw + "px";
@@ -191,10 +195,15 @@ export default function StartNFT (
 		canvas_draw.style.clientHeight = sh + "px";
 		canvas_draw.width = sw;
 		canvas_draw.height = sh;
+
+		// w,h: マーカー検出canvas書き込みターゲットに使うサイズ
+		// 横幅か、高さの4/3倍どちらか大きい方は320になる
 		w = vw * pscale;
 		h = vh * pscale;
-		pw = Math.max(w, (h / 3) * 4);
-		ph = Math.max(h, (w / 4) * 3);
+
+		// pw,ph: マーカー検出に使う映像サイズ
+		pw = Math.max(w, (h / 3) * 4); // 横幅か、高さの4/3倍どちらか大きい方
+		ph = Math.max(h, (w / 4) * 3); // 高さか、横幅の3/4倍どちらか大きい方
 		ox = (pw - w) / 2;
 		oy = (ph - h) / 2;
 		canvas_process.style.clientWidth = pw + "px";
@@ -218,19 +227,26 @@ export default function StartNFT (
 			let msg = ev.data;
 			switch (msg.type) {
 				case "loaded": {
-					// ARKitで用意されたカメラパラメータを使うと3Dモデルのメッシュ表示が崩れるので使わない
-					// let proj = JSON.parse(msg.proj);
-					// let ratioW = pw / w;
-					// let ratioH = ph / h;
-					// proj[0] *= ratioW;
-					// proj[4] *= ratioW;
-					// proj[8] *= ratioW;
-					// proj[12] *= ratioW;
-					// proj[1] *= ratioH;
-					// proj[5] *= ratioH;
-					// proj[9] *= ratioH;
-					// proj[13] *= ratioH;
+					let proj = JSON.parse(msg.proj);
+					console.log(proj);
+					let ratioW = pw / w;
+					let ratioH = ph / h;
+					proj[0] *= ratioW;
+					proj[4] *= ratioW;
+					proj[8] *= ratioW;
+					proj[12] *= ratioW;
+					proj[1] *= ratioH;
+					proj[5] *= ratioH;
+					proj[9] *= ratioH;
+					proj[13] *= ratioH;
+					// このカメラ行列をそのまま使うとメッシュ表示がくずれるので、ダミーカメラを作りそのプロジェクション行列を再代入する
+					// cf. https://stackoverflow.com/questions/46182845/field-of-view-aspect-ratio-view-matrix-from-projection-matrix-hmd-ost-calib/46195462
+					const fov = 2 * Math.atan(1.0 / proj[5]) * 180.0/Math.PI;
+					const aspect = proj[5] / proj[0];
+					console.log(`fov=${fov} aspect=${aspect}`);
 					// setMatrix(camera.projectionMatrix, proj);
+					const dummyCamera = new THREE.PerspectiveCamera(fov, aspect, 1, 3000);
+					camera.projectionMatrix = dummyCamera.projectionMatrix;
 					break;
 				}
 				case "endLoading": {
