@@ -35,21 +35,20 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 		audio: false,
 		video: true
 	};
-	if (window.innerWidth < 800) {
-		let width = window.innerWidth < window.innerHeight ? 240 : 360;
-		let height = window.innerWidth < window.innerHeight ? 360 : 240;
+	// if (window.innerWidth < 800) {
+		console.log(window.innerWidth, window.innerHeight);
+		let width = window.innerWidth / 2;
 		let aspectRatio = window.innerWidth / window.innerHeight;
-		console.log(width, height);
 		hint = {
 			audio: false,
 			video: {
 				facingMode: "environment",
-				width: { min: width, max: width },
+				width: { max: width },
 				aspectRatio: window.innerWidth / window.innerHeight
 			}
 		};
 		console.log(hint);
-	}
+	// }
 
 	navigator.mediaDevices.getUserMedia(hint).then(function(stream) {
 		video.srcObject = stream;
