@@ -151,12 +151,6 @@ export default function StartNFT (
 	const loader = new FBXLoader(loadingManager);
 	loader.load('models/hny2020fbx/Greeting_OnlyDoor.fbx', (object) => {
 		console.log('door loaded', object.scale, object.position);
-		object.traverse((child) => {
-			if (child.material) {
-				console.log(child.material);
-			}
-		});
-
 		object.scale.x = 70;
 		object.scale.y = 70;
 		object.scale.z = 70;
