@@ -101,11 +101,13 @@ export default function StartNFT (
 
 	scene.add(camera);
 
-	const light1 = new THREE.AmbientLight(0xffffff, 1);
+	const light1 = new THREE.AmbientLight(0xffffff, 0.1);
 	scene.add(light1);
 
-	// const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.3);
-	// scene.add(light2);
+	const light2 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+	// const light2 = new THREE.HemisphereLight(0xFFFFFF, 0x333333, 1.0);
+	scene.add(light2);
+	light2.position.set(0, 0,  100);
 
 	const root = new THREE.Object3D();
 	scene.add(root);
@@ -161,6 +163,12 @@ export default function StartNFT (
 	const loader = new FBXLoader(loadingManager);
 	loader.load('models/hny2020fbx/Greeting_OnlyDoor.fbx', (object) => {
 		console.log('door loaded', object.scale, object.position);
+		object.traverse((child) => {
+			if (child.material) {
+				console.log(child.material);
+			}
+		});
+
 		object.scale.x = 70;
 		object.scale.y = 70;
 		object.scale.z = 70;
@@ -174,9 +182,25 @@ export default function StartNFT (
 		console.log('roy loaded', object.scale, object.position);
 		console.log(object.children);
 		object.traverse((child) => {
-			if (child.material && child.material.name === 'mahojin') {
-				console.log(child.name, child.material);
-				child.material.transparent = true;
+			if (child.material) {
+				if (child.material.name === 'mahojin') {
+					console.log(child.name, child.material);
+					child.material.transparent = true;
+				} else {
+					console.log(child.material);
+					try {
+						// child.material = new THREE.MeshLambertMaterial({
+						// 	map: child.material.map
+						// });
+						child.material.shininess = 0;
+						child.material.reflectivity = 0;
+						// child.material.color = new THREE.Color(0.5, 0.5, 0.5);
+						child.material.specular = new THREE.Color(0, 0, 0);
+						// child.material.emissive = new THREE.Color(0.5, 0.5, 0.5);
+					} catch (e) {
+						console.warn(e);
+					}
+				}
 			}
 		});
 		object.scale.x = 0.07;
