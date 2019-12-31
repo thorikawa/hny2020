@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 let door, roy;
 let doorMixer, royMixer;
@@ -65,7 +64,6 @@ export default function StartNFT (
 	let ox, oy;
 	let worker;
 	let camera_para = "../../../Data/camera_para-iPhone 5 rear 640x480 1.0m.dat";
-	// let camera_para = "../../../Data/camera_para.dat";
 
 	let canvas_process = document.createElement("canvas");
 	let context_process = canvas_process.getContext("2d");
@@ -85,16 +83,6 @@ export default function StartNFT (
 	const camera = new THREE.Camera();
 	camera.matrixAutoUpdate = false;
 	
-	const dummyCamera = new THREE.PerspectiveCamera(45, input_width / input_height, 0.1, 3000);
-	// camera.projectionMatrix = dummyCamera.projectionMatrix;
-	// console.log(dummyCamera.projectionMatrix);
-	// camera.position.set(-1.8, 0.6, 2.7);
-	// camera.matrixAutoUpdate = false;
-
-	// const controls = new OrbitControls(camera, renderer.domElement);
-	// controls.target.set(0, 0, - 0.2);
-	// controls.update();
-
 	const audioListener = new THREE.AudioListener();
 	camera.add(audioListener);
 	console.log(audioListener);
@@ -180,26 +168,14 @@ export default function StartNFT (
 	});
 	loader.load('models/hny2020fbx/Greeting280_OnlyRoy.fbx', (object) => {
 		console.log('roy loaded', object.scale, object.position);
-		console.log(object.children);
 		object.traverse((child) => {
 			if (child.material) {
 				if (child.material.name === 'mahojin') {
-					console.log(child.name, child.material);
 					child.material.transparent = true;
 				} else {
-					console.log(child.material);
-					try {
-						// child.material = new THREE.MeshLambertMaterial({
-						// 	map: child.material.map
-						// });
-						child.material.shininess = 0;
-						child.material.reflectivity = 0;
-						// child.material.color = new THREE.Color(0.5, 0.5, 0.5);
-						child.material.specular = new THREE.Color(0, 0, 0);
-						// child.material.emissive = new THREE.Color(0.5, 0.5, 0.5);
-					} catch (e) {
-						console.warn(e);
-					}
+					child.material.shininess = 0;
+					child.material.reflectivity = 0;
+					child.material.specular = new THREE.Color(0, 0, 0);
 				}
 			}
 		});
